@@ -1,16 +1,11 @@
 function control_fun () {
-    if (input.rotation(Rotation.Pitch) > 90) {
-        speed = 90
-    } else if (input.rotation(Rotation.Pitch) < -90) {
-        speed = -90
-    }
-    speed = Math.map(input.rotation(Rotation.Pitch), -90, 90, 0, 5)
+    speed = Math.trunc(Math.map(input.rotation(Rotation.Pitch), -90, 90, 0, 5))
     if (input.rotation(Rotation.Roll) > 90) {
         angle = 90
     } else if (input.rotation(Rotation.Roll) < -90) {
         angle = -90
     }
-    angle = Math.map(input.rotation(Rotation.Roll), -90, 90, 0, 5)
+    angle = Math.trunc(Math.map(input.rotation(Rotation.Roll), -90, 90, 0, 5))
     if (speed == 2) {
         controller = "stop"
     } else if (speed > 2 && angle == 2) {
@@ -34,8 +29,10 @@ speed = 0
 controller = "stop"
 basic.forever(function () {
     control_fun()
+    basic.showNumber(angle)
+    basic.pause(10)
+    basic.showNumber(speed)
     radio.sendString(controller)
-    led.plot(angle, speed)
     basic.pause(10)
     basic.clearScreen()
 })
